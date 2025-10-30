@@ -1,5 +1,6 @@
 package com.example.random_num;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -10,19 +11,23 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, tvAverage;
-    private Button btnStartStop, btnNewGame;
-    private int n1, n2, n3, n4, n5, n6;
-    private boolean isRunning = false;
+    private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, count;
+    private Button start, btnNewGame;
     private Handler handler = new Handler();
     private Random random = new Random();
+    private boolean istart = false;
 
-    private Runnable runnable = new Runnable() {
+    private int n1, n2, n3, n4, n5, n6;
+    private int matchCount = 0;
+
+    private Runnable updateNumber = new Runnable() {
         @Override
         public void run() {
-            int num = random.nextInt(39) + 1;
-            tvCurrent.setText(String.valueOf(num));
-            handler.postDelayed(this, 100);
+            if (istart) {
+                int n = random.nextInt(39) + 1;
+                tvCurrent.setText(String.valueOf(n));
+                handler.postDelayed(this, 10);
+            }
         }
     };
 
@@ -38,24 +43,24 @@ public class MainActivity extends AppCompatActivity {
         tv5 = findViewById(R.id.textView5);
         tv6 = findViewById(R.id.textView6);
         tvCurrent = findViewById(R.id.textView7);
-        tvAverage = findViewById(R.id.textView8);
-        btnStartStop = findViewById(R.id.button);
+        count = findViewById(R.id.textView8);
+        start = findViewById(R.id.button);
         btnNewGame = findViewById(R.id.button3);
 
-        newGame();
-
-        btnStartStop.setOnClickListener(new View.OnClickListener() {
+        start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isRunning) {
-                    isRunning = true;
-                    handler.post(runnable);
-                    btnStartStop.setText("stop");
-                } else {
-                    isRunning = false;
-                    handler.removeCallbacks(runnable);
-                    btnStartStop.setText("start");
-                    checkMatch();
+                if (!istart && matchCount < 6) {
+                    istart = true;
+                    start.setText("Stop");
+                    handler.post(updateNumber);
+                } else if (istart) {
+                    istart = false;
+                    start.setText("Start");
+                    handler.removeCallbacks(updateNumber);
+
+                    int finalNum = Integer.parseInt(tvCurrent.getText().toString());
+                    checkMatch(finalNum);
                 }
             }
         });
@@ -63,12 +68,20 @@ public class MainActivity extends AppCompatActivity {
         btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newGame();
+                generateNewNumbers();
+                start.setText("Start");
+                istart = false;
+                matchCount = 0;
+                updateCounter();
             }
         });
+
+        generateNewNumbers();
+        updateCounter();
     }
 
-    private void newGame() {
+    private void generateNewNumbers() {
+        resetColors();
         n1 = random.nextInt(39) + 1;
         n2 = random.nextInt(39) + 1;
         n3 = random.nextInt(39) + 1;
@@ -82,25 +95,37 @@ public class MainActivity extends AppCompatActivity {
         tv4.setText(String.valueOf(n4));
         tv5.setText(String.valueOf(n5));
         tv6.setText(String.valueOf(n6));
-
-        tv1.setTextColor(0xFF000000);
-        tv2.setTextColor(0xFF000000);
-        tv3.setTextColor(0xFF000000);
-        tv4.setTextColor(0xFF000000);
-        tv5.setTextColor(0xFF000000);
-        tv6.setTextColor(0xFF000000);
-
-        tvCurrent.setText("0");
     }
 
-    private void checkMatch() {
-        int current = Integer.parseInt(tvCurrent.getText().toString());
+    private void checkMatch(int current) {
+        if (matchCount >= 6) return;
 
-        if (current == n1) tv1.setTextColor(0xFF4CAF50);
-        if (current == n2) tv2.setTextColor(0xFF4CAF50);
-        if (current == n3) tv3.setTextColor(0xFF4CAF50);
-        if (current == n4) tv4.setTextColor(0xFF4CAF50);
-        if (current == n5) tv5.setTextColor(0xFF4CAF50);
-        if (current == n6) tv6.setTextColor(0xFF4CAF50);
+        if (current == n1) highlight(tv1);
+        if (current == n2) highlight(tv2);
+        if (current == n3) highlight(tv3);
+        if (current == n4) highlight(tv4);
+        if (current == n5) highlight(tv5);
+        if (current == n6) highlight(tv6);
+    }
+
+    private void highlight(TextView tv) {
+        if (tv.getCurrentTextColor() != Color.RED && matchCount < 6) {
+            tv.setTextColor(Color.RED);
+            matchCount++;
+            updateCounter();
+        }
+    }
+
+    private void updateCounter() {
+        count.setText(matchCount + " of 6");
+    }
+
+    private void resetColors() {
+        tv1.setTextColor(Color.BLACK);
+        tv2.setTextColor(Color.BLACK);
+        tv3.setTextColor(Color.BLACK);
+        tv4.setTextColor(Color.BLACK);
+        tv5.setTextColor(Color.BLACK);
+        tv6.setTextColor(Color.BLACK);
     }
 }
