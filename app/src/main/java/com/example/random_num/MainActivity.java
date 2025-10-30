@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             if (istart) {
                 int n = random.nextInt(39) + 1;
                 tvCurrent.setText(String.valueOf(n));
-                handler.postDelayed(this, 10);
+                handler.postDelayed(this, 1000);
             }
         }
     };
