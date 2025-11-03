@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int n1, n2, n3, n4, n5, n6;
     private int matchCount = 0;
+    private int clickCount = 0;
 
     private Runnable updateNumber = new Runnable() {
         @Override
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               if(clickCount<6)
                 if (!istart && matchCount < 6) {
                     istart = true;
                     start.setText("Stop");
@@ -58,9 +60,14 @@ public class MainActivity extends AppCompatActivity {
                     istart = false;
                     start.setText("Start");
                     handler.removeCallbacks(updateNumber);
-
                     int finalNum = Integer.parseInt(tvCurrent.getText().toString());
                     checkMatch(finalNum);
+
+                    clickCount++;
+                    updateCounter();
+                }else if (clickCount ==0)
+                ;{
+
                 }
             }
         });
@@ -72,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 start.setText("Start");
                 istart = false;
                 matchCount = 0;
+                clickCount = 0;
                 updateCounter();
             }
         });
@@ -109,23 +117,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void highlight(TextView tv) {
-        if (tv.getCurrentTextColor() != Color.RED && matchCount < 6) {
-            tv.setTextColor(Color.RED);
+        if (tv.getCurrentTextColor() != Color.GREEN && matchCount < 6) {
+            tv.setTextColor(Color.GREEN);
             matchCount++;
             updateCounter();
         }
     }
 
     private void updateCounter() {
-        count.setText(matchCount + " of 6");
+        count.setText(clickCount + " of 6");
     }
 
     private void resetColors() {
-        tv1.setTextColor(Color.BLACK);
-        tv2.setTextColor(Color.BLACK);
-        tv3.setTextColor(Color.BLACK);
-        tv4.setTextColor(Color.BLACK);
-        tv5.setTextColor(Color.BLACK);
-        tv6.setTextColor(Color.BLACK);
+        tv1.setTextColor(Color.RED);
+        tv2.setTextColor(Color.RED);
+        tv3.setTextColor(Color.RED);
+        tv4.setTextColor(Color.RED);
+        tv5.setTextColor(Color.RED);
+        tv6.setTextColor(Color.RED);
     }
 }
