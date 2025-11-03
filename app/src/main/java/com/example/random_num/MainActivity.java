@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int n1, n2, n3, n4, n5, n6;
     private int matchCount = 0;
+    private int c = 0;
+
 
     private Runnable updateNumber = new Runnable() {
         @Override
@@ -50,12 +52,15 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(c<7)
                 if (!istart && matchCount < 6) {
                     istart = true;
+
                     start.setText("Stop");
                     handler.post(updateNumber);
                 } else if (istart) {
                     istart = false;
+                    c++;
                     start.setText("Start");
                     handler.removeCallbacks(updateNumber);
 
@@ -127,5 +132,6 @@ public class MainActivity extends AppCompatActivity {
         tv4.setTextColor(Color.BLACK);
         tv5.setTextColor(Color.BLACK);
         tv6.setTextColor(Color.BLACK);
+        c=0;
     }
 }
