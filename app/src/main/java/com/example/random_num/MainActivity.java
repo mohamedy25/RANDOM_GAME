@@ -1,5 +1,6 @@
 package com.example.random_num;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,9 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static int pubCount = 0, pubGame = 0;
     private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, count;
-    private Button start, btnNewGame;
+    private Button start, btnNewGame, page;
     private Handler handler = new Handler();
     private Random random = new Random();
     private boolean istart = false;
@@ -20,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private int n1, n2, n3, n4, n5, n6;
     private int matchCount = 0;
     private int c = 0;
-
 
     private Runnable updateNumber = new Runnable() {
         @Override
@@ -47,26 +47,34 @@ public class MainActivity extends AppCompatActivity {
         tvCurrent = findViewById(R.id.textView7);
         count = findViewById(R.id.textView8);
         start = findViewById(R.id.button);
+        page = findViewById(R.id.button4);
         btnNewGame = findViewById(R.id.button3);
+
+        page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent npage = new Intent(MainActivity.this, ScoreActivity.class);
+                startActivity(npage);
+            }
+        });
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(c<7)
-                if (!istart && matchCount < 6) {
-                    istart = true;
+                if (c < 7)
+                    if (!istart && matchCount < 6) {
+                        istart = true;
+                        start.setText("Stop");
+                        handler.post(updateNumber);
+                    } else if (istart) {
+                        istart = false;
+                        c++;
+                        start.setText("Start");
+                        handler.removeCallbacks(updateNumber);
 
-                    start.setText("Stop");
-                    handler.post(updateNumber);
-                } else if (istart) {
-                    istart = false;
-                    c++;
-                    start.setText("Start");
-                    handler.removeCallbacks(updateNumber);
-
-                    int finalNum = Integer.parseInt(tvCurrent.getText().toString());
-                    checkMatch(finalNum);
-                }
+                        int finalNum = Integer.parseInt(tvCurrent.getText().toString());
+                        checkMatch(finalNum);
+                    }
             }
         });
 
@@ -76,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 generateNewNumbers();
                 start.setText("Start");
                 istart = false;
+                pubGame++;
                 matchCount = 0;
                 updateCounter();
             }
@@ -105,12 +114,12 @@ public class MainActivity extends AppCompatActivity {
     private void checkMatch(int current) {
         if (matchCount >= 6) return;
 
-        if (current == n1) highlight(tv1);
-        if (current == n2) highlight(tv2);
-        if (current == n3) highlight(tv3);
-        if (current == n4) highlight(tv4);
-        if (current == n5) highlight(tv5);
-        if (current == n6) highlight(tv6);
+        if (current == n1) { highlight(tv1); pubCount++; }
+        if (current == n2) { highlight(tv2); pubCount++; }
+        if (current == n3) { highlight(tv3); pubCount++; }
+        if (current == n4) { highlight(tv4); pubCount++; }
+        if (current == n5) { highlight(tv5); pubCount++; }
+        if (current == n6) { highlight(tv6); pubCount++; }
     }
 
     private void highlight(TextView tv) {
@@ -132,6 +141,6 @@ public class MainActivity extends AppCompatActivity {
         tv4.setTextColor(Color.BLACK);
         tv5.setTextColor(Color.BLACK);
         tv6.setTextColor(Color.BLACK);
-        c=0;
+        c = 0;
     }
 }

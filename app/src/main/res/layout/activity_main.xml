@@ -100,6 +100,10 @@
         android:textSize="60dp"
         android:gravity="center"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <Button
         android:id="@+id/button3"
@@ -108,6 +112,13 @@
         android:text="new game"
         android:layout_marginTop="100dp"
         />
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="score"
+            android:layout_marginTop="100dp"
 
-
+            />
+    </LinearLayout>
 </LinearLayout>
