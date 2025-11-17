@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private Random random = new Random();
     private boolean istart = false;
+            private EditText name;
 
     private int n1, n2, n3, n4, n5, n6;
     private int matchCount = 0;
@@ -48,12 +50,14 @@ public class MainActivity extends AppCompatActivity {
         count = findViewById(R.id.textView8);
         start = findViewById(R.id.button);
         page = findViewById(R.id.button4);
+        name=findViewById(R.id.editTextText);
         btnNewGame = findViewById(R.id.button3);
 
         page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent npage = new Intent(MainActivity.this, ScoreActivity.class);
+                npage.putExtra("NAME", name.getText().toString());
                 startActivity(npage);
             }
         });

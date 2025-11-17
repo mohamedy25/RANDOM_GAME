@@ -75,6 +75,16 @@
 
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:hint="your Name" />
+
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
@@ -121,4 +131,6 @@
 
             />
     </LinearLayout>
+
+
 </LinearLayout>
