@@ -1,5 +1,6 @@
 package com.example.random_num;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,17 +9,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
     public static int pubCount = 0, pubGame = 0;
+
     private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, count;
-    private Button start, btnNewGame, page;
+    private Button start, btnNewGame, page, exit;
+    private EditText name;
+
     private Handler handler = new Handler();
     private Random random = new Random();
     private boolean istart = false;
-            private EditText name;
 
     private int n1, n2, n3, n4, n5, n6;
     private int matchCount = 0;
@@ -46,13 +53,18 @@ public class MainActivity extends AppCompatActivity {
         tv4 = findViewById(R.id.textView4);
         tv5 = findViewById(R.id.textView5);
         tv6 = findViewById(R.id.textView6);
+
         tvCurrent = findViewById(R.id.textView7);
         count = findViewById(R.id.textView8);
-        start = findViewById(R.id.button);
-        page = findViewById(R.id.button4);
-        name=findViewById(R.id.editTextText);
-        btnNewGame = findViewById(R.id.button3);
 
+        start = findViewById(R.id.button);
+        btnNewGame = findViewById(R.id.button3);
+        page = findViewById(R.id.button4);
+        exit = findViewById(R.id.button5);
+
+        name = findViewById(R.id.editTextText);
+
+        // Go to Score Page
         page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (c < 7)
+                if (c < 7) {
                     if (!istart && matchCount < 6) {
                         istart = true;
                         start.setText("Stop");
@@ -79,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                         int finalNum = Integer.parseInt(tvCurrent.getText().toString());
                         checkMatch(finalNum);
                     }
+                }
             }
         });
 
@@ -86,11 +99,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 generateNewNumbers();
-                start.setText("Start");
                 istart = false;
+                start.setText("Start");
                 pubGame++;
                 matchCount = 0;
                 updateCounter();
+            }
+        });
+
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buildDialog();
             }
         });
 
@@ -100,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void generateNewNumbers() {
         resetColors();
+
         n1 = random.nextInt(39) + 1;
         n2 = random.nextInt(39) + 1;
         n3 = random.nextInt(39) + 1;
@@ -146,5 +167,31 @@ public class MainActivity extends AppCompatActivity {
         tv5.setTextColor(Color.BLACK);
         tv6.setTextColor(Color.BLACK);
         c = 0;
+    }
+
+    // Exit confirmation dialog
+    public void buildDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Exit");
+        alertDialog.setMessage("Do you want to exit?");
+        alertDialog.setCancelable(false);
+
+        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
     }
 }
