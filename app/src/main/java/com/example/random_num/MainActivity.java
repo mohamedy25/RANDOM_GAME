@@ -173,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
     public void buildDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Exit");
+        alertDialog.setIcon(R.drawable.alert_icon);
         alertDialog.setMessage("Do you want to exit?");
         alertDialog.setCancelable(false);
 
