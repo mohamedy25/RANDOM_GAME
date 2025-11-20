@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buildDialog();
+                showCustomExitDialog();
             }
         });
 
@@ -169,30 +170,26 @@ public class MainActivity extends AppCompatActivity {
         c = 0;
     }
 
-    // Exit confirmation dialog
-    public void buildDialog() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-        alertDialog.setTitle("Exit");
-        alertDialog.setIcon(R.drawable.alert_icon);
-        alertDialog.setMessage("Do you want to exit?");
-        alertDialog.setCancelable(false);
+    public void showCustomExitDialog() {
 
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                finish();
-            }
+        View view = getLayoutInflater().inflate(R.layout.dialog_exit, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+
+        Button yesBtn = view.findViewById(R.id.positiveButton);
+        Button noBtn = view.findViewById(R.id.negativeButton);
+
+        yesBtn.setOnClickListener(v -> {
+            dialog.dismiss();
+            finish();
         });
 
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        noBtn.setOnClickListener(v -> dialog.dismiss());
 
-        AlertDialog alert = alertDialog.create();
-        alert.show();
+        dialog.show();
     }
 }
