@@ -1,5 +1,6 @@
 package com.example.random_num;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -171,25 +172,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showCustomExitDialog() {
-
-        View view = getLayoutInflater().inflate(R.layout.dialog_exit, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view);
-
-        AlertDialog dialog = builder.create();
-        dialog.setCancelable(false);
-
-        Button yesBtn = view.findViewById(R.id.positiveButton);
-        Button noBtn = view.findViewById(R.id.negativeButton);
-
-        yesBtn.setOnClickListener(v -> {
-            dialog.dismiss();
-            finish();
+Dialog d = new Dialog(MainActivity.this);
+d.setContentView(R.layout.my_dialog);
+Button yes =d.findViewById(R.id.positiveButton);
+Button no =d.findViewById(R.id.negativeButton);
+yes.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        finish();
+        System.exit(0);
+    }});
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
         });
-
-        noBtn.setOnClickListener(v -> dialog.dismiss());
-
-        dialog.show();
+        d.show();
     }
 }
