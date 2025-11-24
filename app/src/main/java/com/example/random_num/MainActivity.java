@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static int pubCount = 0, pubGame = 0;
 
-    private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, count,PlayerName;
+    private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, count,PlayerName,tvage;
     private Button start, btnNewGame, page, exit;
 
     private Handler handler = new Handler();
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         tv4 = findViewById(R.id.textView4);
         tv5 = findViewById(R.id.textView5);
         tv6 = findViewById(R.id.textView6);
+        tvage = findViewById(R.id.tvage);
 
         tvCurrent = findViewById(R.id.textView7);
         count = findViewById(R.id.textView8);
@@ -211,6 +212,7 @@ yes.setOnClickListener(new View.OnClickListener() {
                     Toast.makeText(MainActivity.this, "Please enter both name and age", Toast.LENGTH_SHORT).show();
                 } else {
                     PlayerName.setText(inputName);
+                    tvage.setText(inputAge);
                     dialog.dismiss();
                 }
             }
