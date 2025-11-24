@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,9 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static int pubCount = 0, pubGame = 0;
 
-    private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, count;
+    private TextView tv1, tv2, tv3, tv4, tv5, tv6, tvCurrent, count,PlayerName;
     private Button start, btnNewGame, page, exit;
-    private EditText name;
 
     private Handler handler = new Handler();
     private Random random = new Random();
@@ -64,14 +64,16 @@ public class MainActivity extends AppCompatActivity {
         page = findViewById(R.id.button4);
         exit = findViewById(R.id.button5);
 
-        name = findViewById(R.id.editTextText);
+        PlayerName = findViewById(R.id.tvName);
+        showVerificationDialog();
+        generateNewNumbers();
+        updateCounter();
 
-        // Go to Score Page
         page.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent npage = new Intent(MainActivity.this, ScoreActivity.class);
-                npage.putExtra("NAME", name.getText().toString());
+                npage.putExtra("NAME", PlayerName.getText().toString());
                 startActivity(npage);
             }
         });
@@ -189,5 +191,31 @@ yes.setOnClickListener(new View.OnClickListener() {
             }
         });
         d.show();
+    }
+    private void showVerificationDialog() {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.verify);
+        dialog.setCancelable(false);
+
+        EditText nameInput = dialog.findViewById(R.id.nameInput);
+        EditText ageInput = dialog.findViewById(R.id.age);
+        Button goAhead = dialog.findViewById(R.id.button6);
+
+        goAhead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String inputName = nameInput.getText().toString().trim();
+                String inputAge = ageInput.getText().toString().trim();
+
+                if(inputName.isEmpty() || inputAge.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Please enter both name and age", Toast.LENGTH_SHORT).show();
+                } else {
+                    PlayerName.setText(inputName);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
     }
 }

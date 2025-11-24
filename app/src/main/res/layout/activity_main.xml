@@ -21,7 +21,9 @@
             android:layout_weight="1"
             android:text="0"
             android:textColor="#ED1818"
-            android:textSize="50dp" />
+            android:textSize="50dp"
+            android:layout_marginTop="12dp"
+            />
 
         <TextView
             android:id="@+id/textView2"
@@ -31,6 +33,8 @@
             android:text="0"
             android:textColor="#ED1818"
             android:textSize="50dp"
+            android:layout_marginTop="12dp"
+
             />
 
         <TextView
@@ -41,6 +45,8 @@
             android:text="0"
             android:textColor="#ED1818"
             android:textSize="50dp"
+            android:layout_marginTop="12dp"
+
             />
 
         <TextView
@@ -51,6 +57,8 @@
             android:text="0"
             android:textColor="#ED1818"
             android:textSize="50dp"
+            android:layout_marginTop="12dp"
+
             />
 
         <TextView
@@ -61,6 +69,8 @@
             android:text="0"
             android:textColor="#ED1818"
             android:textSize="50dp"
+            android:layout_marginTop="12dp"
+
             />
 
         <TextView
@@ -71,18 +81,20 @@
             android:textColor="#ED1818"
             android:text="0"
             android:textSize="50dp"
+            android:layout_marginTop="12dp"
+
             />
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:gravity="center"
-        android:hint="your Name" />
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:text="NAME"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/textView7"
@@ -91,7 +103,7 @@
         android:text="0"
         android:textSize="150dp"
         android:layout_gravity="center"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="50dp"
         />
 
     <Button
