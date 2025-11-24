@@ -209,10 +209,9 @@ yes.setOnClickListener(new View.OnClickListener() {
                 String inputAge = ageInput.getText().toString().trim();
 
                 if(inputName.isEmpty() || inputAge.isEmpty()){
-                    Toast.makeText(MainActivity.this, "Please enter both name and age", Toast.LENGTH_SHORT).show();
                 } else {
-                    PlayerName.setText(inputName);
-                    tvage.setText(inputAge);
+                    PlayerName.setText("name: "+inputName);
+                    tvage.setText("age " +inputAge);
                     dialog.dismiss();
                 }
             }
