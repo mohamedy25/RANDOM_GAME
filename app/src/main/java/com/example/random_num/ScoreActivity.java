@@ -28,7 +28,7 @@ public class ScoreActivity extends AppCompatActivity {
         receivedIntent = getIntent();
 
         String name = receivedIntent.getStringExtra("NAME");
-        tvName.setText(ggname );
+        tvName.setText(name );
 
         tvNumGames.setText("Games: " + MainActivity.pubGame);
         tvNumCorrect.setText("Correct: " + MainActivity.pubCount);
